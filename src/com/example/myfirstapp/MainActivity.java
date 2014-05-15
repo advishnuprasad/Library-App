@@ -185,7 +185,7 @@ public class MainActivity extends Activity {
 		});
 
 	}
-
+	
 	private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 		  ImageView bmImage;
 

@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -34,15 +35,16 @@ public class BestsellerList extends Activity {
 
 	// url to make request
 	private static final String SEARCH_URL = "url";
-	private static final String SERVER_BASE_URL = "192.168.2.118:4321";
+	private static final String SERVER_BASE_URL = "192.168.1.106:4321";
 	// JSON Node names
 	private static final String TAG_WISHLIST = "wishlists";
-	private static final String TAG_AUTHOR = "author_id";
+	private static final String TAG_AUTHOR = "author";
 	private static final String TAG_IMAGE_URL = "image";
 	private static final String TAG_PAGE = "no_of_pages";
 	private static final String TAG_LANGUAGE = "language";
 	private static final String TAG_TITLE = "title";
 	private static final String TAG_ISBN = "isbn";
+	private static final String TAG_CATEGORY = "category";	
 
 	// contacts JSONArray
 	JSONArray list = null;
@@ -62,11 +64,13 @@ public class BestsellerList extends Activity {
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 		
-		SharedPreferences value = getPreferences(MODE_PRIVATE);
+		SharedPreferences value = getSharedPreferences("PREF", Context.MODE_PRIVATE);
 		String auth_token = value.getString("AUTH_TOKEN","");
-		
+		String membership_no = value.getString("MEMBERSHIP_NO","");
+		String phone_no = value.getString("PHONE_NO","");
 		System.out.println("score");
-		String url = "http://"+SERVER_BASE_URL+"/api/v1/wishlists.json?auth_token=SRciNGKqPKDqEStase-9&phone=9686448557";
+		String url = "http://"+SERVER_BASE_URL+"/api/v1/wishlists.json?auth_token="+auth_token+"&membership_no="+membership_no+"&phone="+phone_no;
+		System.out.println(url);
 		// Hashmap for ListView
 		List<Book> bookList = new ArrayList<Book>();
 		// Creating JSON Parser instance
@@ -86,6 +90,7 @@ public class BestsellerList extends Activity {
 				String page = c.getString(TAG_PAGE);
 				String language = c.getString(TAG_LANGUAGE);
 				String title = c.getString(TAG_TITLE);
+				String category = c.getString(TAG_CATEGORY);
 				String isbn = c.getString(TAG_ISBN);
 				//String imageUrl = "http://cdn2.justbooksclc.com/medium/"+isbn+".jpg";
 
@@ -96,7 +101,7 @@ public class BestsellerList extends Activity {
 				 * phone.getString(TAG_PHONE_HOME); String office =
 				 * phone.getString(TAG_PHONE_OFFICE);
 				 */
-
+				
 				Book book = new Book();
 				book.setTitle(title);
 				book.setAuthor(author);

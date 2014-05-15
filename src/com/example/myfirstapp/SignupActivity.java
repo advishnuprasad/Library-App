@@ -16,7 +16,7 @@ import android.widget.TextView;
 public class SignupActivity extends Activity {
 
 	private static final String SEARCH_URL = "url";
-	private static final String SERVER_BASE_URL = "192.168.2.118:4321";
+	private static final String SERVER_BASE_URL = "192.168.1.106:4321";
 	// JSON Node names
 	private static final String SUCCESS = "success";
 	String NUMBER;
@@ -67,6 +67,7 @@ public class SignupActivity extends Activity {
 			  editor.putString("AUTH_TOKEN", auth_token);
 			  editor.putString("MEMBERSHIP_NO", membership_no);
 			  editor.putString("DATE_OF_SIGNUP", data_of_signup);
+			  editor.putString("PHONE_NO", numb);
 			  System.out.println("im commiting");
 			  editor.commit();
 			  
@@ -77,6 +78,8 @@ public class SignupActivity extends Activity {
 			  System.out.println("memb no is : "+memb);
 			  String auth = value.getString("AUTH_TOKEN","");
 			  System.out.println("auth value is : "+auth);
+			  String phone_no = value.getString("PHONE_NO", "");			  
+			  System.out.println("Phone No value is : "+phone_no);
 			  final TextView TextView = (TextView) findViewById(R.id.textView6);
 			  TextView.setText(memb.toString());
 		} catch (JSONException e) {
